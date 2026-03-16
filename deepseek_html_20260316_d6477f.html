@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pixel Haven · by Bakhita (dark)</title>
+    <!-- Font Awesome 6 (free) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* ---------- RESET & DARK MODE VARIABLES ---------- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+
+        /* default dark theme (also matches system preference) */
+        :root {
+            --brand: #d4a373;          /* warm amber for dark bg */
+            --brand-light: #5e4b3a;
+            --bg-primary: #121212;
+            --bg-secondary: #1e1e1e;
+            --surface: #2a2a2a;
+            --text-primary: #eaeaea;
+            --text-secondary: #b0b0b0;
+            --border-dim: #3e3e3e;
+            --shadow-strength: 0 20px 30px -12px rgba(0, 0, 0, 0.6);
+            --logo-bg: #d4a373;
+            --logo-text: #121212;
+            --card-bg: #242424;
+            --footer-bg: #1a1a1a;
+            --hero-bg: #1a1a1a;
+            --banner-bg: #2a2a2a;
+            --btn-hover: #b8895c;
+        }
+
+        /* light theme override (if user prefers light – we keep dark as default but add fallback) */
+        @media (prefers-color-scheme: light) {
+            :root {
+                --brand: #b48c5c;
+                --brand-light: #e7d9cc;
+                --bg-primary: #f5f0eb;
+                --bg-secondary: #fefefe;
+                --surface: #ffffff;
+                --text-primary: #1e1e2f;
+                --text-secondary: #3f3a36;
+                --border-dim: #e0d6cc;
+                --shadow-strength: 0 20px 30px -12px rgba(0, 0, 0, 0.08);
+                --logo-bg: #b48c5c;
+                --logo-text: white;
+                --card-bg: #ffffff;
+                --footer-bg: #e1d7cf;
+                --hero-bg: #f5f0eb;
+                --banner-bg: var(--brand-light);
+                --btn-hover: #9f764b;
+            }
+        }
+
+        body {
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.5;
+            transition: background-color 0.2s, color 0.2s;
+        }
+
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            width: 100%;
+        }
+
+        /* ----- HEADER & LOGO ----- */
+        header {
+            background-color: var(--bg-secondary);
+            box-shadow: 0 4px 18px rgba(0, 0, 0, 0.3);
+            padding: 0.8rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            border-bottom: 1px solid var(--border-dim);
+        }
+
+        .header-inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-icon {
+            background: var(--logo-bg);
+            width: 48px;
+            height: 48px;
+            border-radius: 14px 4px 14px 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--logo-text);
+            font-size: 1.9rem;
+            box-shadow: 0 6px 10px rgba(212, 163, 115, 0.2);
+            transition: transform 0.2s ease;
+        }
+
+        .logo-icon:hover {
+            transform: scale(1.02) rotate(-1deg);
+        }
+
+        .logo-text h1 {
+            font-size: 1.9rem;
+            font-weight: 500;
+            letter-spacing: -0.5px;
+            color: var(--text-primary);
+        }
+
+        .logo-text h1 span {
+            color: var(--brand);
+            font-weight: 600;
+            font-style: italic;
+        }
+
+        .logo-text .by-line {
+            font-size: 0.85rem;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: var(--text-secondary);
+            margin-top: -4px;
+        }
+
+        nav a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            margin-left: 2.2rem;
+            font-weight: 450;
+            border-bottom: 2px solid transparent;
+            padding-bottom: 5px;
+            transition: 0.15s;
+        }
+
+        nav a:hover {
+            border-bottom-color: var(--brand);
+            color: var(--brand);
+        }
+
+        /* ----- HERO ----- */
+        .hero {
+            background: var(--hero-bg);
+            padding: 3.2rem 0 4rem 0;
+            margin-bottom: 3rem;
+        }
+
+        .hero-grid {
+            display: flex;
+            align-items: center;
+            gap: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .hero-text {
+            flex: 1 1 280px;
+        }
+
+        .hero-text h2 {
+            font-size: clamp(2rem, 5vw, 2.8rem);
+            font-weight: 450;
+            line-height: 1.2;
+        }
+
+        .hero-text h2 i {
+            color: var(--brand);
+            font-style: normal;
+            font-weight: 600;
+            border-bottom: 3px double var(--brand-light);
+        }
+
+        .hero-text p {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            margin: 1.8rem 0 1.2rem;
+            max-width: 500px;
+        }
+
+        .btn {
+            background: var(--brand);
+            color: #121212;
+            border: none;
+            padding: 0.9rem 2.2rem;
+            border-radius: 40px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: 0.2s;
+            box-shadow: 0 12px 16px -12px rgba(212, 163, 115, 0.4);
+            display: inline-block;
+            text-decoration: none;
+        }
+
+        .btn:hover {
+            background: var(--btn-hover);
+            transform: translateY(-3px);
+        }
+
+        /* hero collage */
+        .hero-collage {
+            flex: 1 1 340px;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.2rem;
+        }
+
+        .hero-collage img {
+            width: 100%;
+            height: 160px;
+            object-fit: cover;
+            border-radius: 20px 6px 20px 6px;
+            box-shadow: var(--shadow-strength);
+            border: 1px solid var(--border-dim);
+            transition: 0.3s ease;
+            background-color: #333; /* fallback while loading */
+        }
+
+        .hero-collage img:hover {
+            border-radius: 6px 20px 6px 20px;
+            box-shadow: 0 30px 35px -16px var(--brand);
+        }
+
+        .hero-collage .wide {
+            grid-column: span 2;
+            height: 190px;
+        }
+
+        /* ----- SECTION TITLE ----- */
+        .section-title {
+            font-size: clamp(1.8rem, 4vw, 2.3rem);
+            font-weight: 430;
+            margin: 2.8rem 0 1.8rem;
+            border-left: 8px solid var(--brand);
+            padding-left: 1.5rem;
+        }
+
+        .section-title i {
+            color: var(--brand);
+            margin-right: 6px;
+        }
+
+        /* ----- CARD GRID (fully responsive) ----- */
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border-radius: 28px 10px 28px 10px;
+            overflow: hidden;
+            box-shadow: var(--shadow-strength);
+            transition: 0.25s;
+            border: 1px solid var(--border-dim);
+        }
+
+        .card:hover {
+            transform: scale(1.01) translateY(-6px);
+            border-radius: 10px 28px 10px 28px;
+            box-shadow: 0 32px 40px -18px var(--brand);
+        }
+
+        .card-img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            display: block;
+            transition: 0.4s;
+            background-color: #3a3a3a; /* fallback */
+        }
+
+        .card-content {
+            padding: 1.8rem 1.5rem 1.8rem;
+        }
+
+        .card-content h3 {
+            font-size: 1.6rem;
+            font-weight: 460;
+            margin-bottom: 0.6rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-primary);
+        }
+
+        .card-content h3 i {
+            color: var(--brand);
+            font-size: 1.4rem;
+        }
+
+        .card-content p {
+            color: var(--text-secondary);
+            margin-bottom: 1.4rem;
+        }
+
+        .tag {
+            background: var(--brand-light);
+            color: var(--text-primary);
+            padding: 0.25rem 1rem;
+            border-radius: 40px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            display: inline-block;
+        }
+
+        /* banner strip */
+        .banner-strip {
+            background: var(--banner-bg);
+            border-radius: 50px 0 50px 0;
+            margin: 4rem 0;
+            display: flex;
+            flex-wrap: wrap;
+            overflow: hidden;
+            box-shadow: var(--shadow-strength);
+        }
+
+        .banner-strip img {
+            flex: 1 1 240px;
+            min-width: 200px;
+            height: 240px;
+            object-fit: cover;
+            opacity: 0.9;
+            transition: 0.3s;
+            border-right: 2px solid var(--border-dim);
+            background-color: #2f2f2f;
+        }
+
+        .banner-strip img:last-child {
+            border-right: none;
+        }
+
+        .banner-strip img:hover {
+            opacity: 1;
+            transform: scale(1.02);
+        }
+
+        /* note section */
+        .note-box {
+            background: var(--brand-light);
+            border-radius: 50px 8px 50px 8px;
+            padding: 2rem;
+            margin: 3rem auto;
+            text-align: center;
+            color: var(--text-primary);
+        }
+
+        /* footer */
+        footer {
+            background: var(--footer-bg);
+            padding: 2.8rem 0 2rem;
+            margin-top: 4rem;
+            border-top: 4px solid var(--brand);
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 2rem;
+        }
+
+        .footer-logo small {
+            font-size: 1.5rem;
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+
+        .footer-logo i {
+            background: var(--brand);
+            padding: 8px;
+            border-radius: 50%;
+            color: #121212;
+            margin-right: 6px;
+        }
+
+        .footer-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            margin-left: 2rem;
+            font-weight: 400;
+            border-bottom: 1px dotted transparent;
+        }
+
+        .footer-links a:hover {
+            border-bottom-color: var(--brand);
+            color: var(--brand);
+        }
+
+        .copyright {
+            margin-top: 2.5rem;
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            text-align: center;
+        }
+
+        /* fixed stamp */
+        .fixed-stamp {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: var(--surface);
+            padding: 6px 12px;
+            border-radius: 60px;
+            box-shadow: 0 6px 12px rgba(0,0,0,0.3);
+            font-size: 0.8rem;
+            color: var(--brand);
+            border: 1px solid var(--border-dim);
+            z-index: 99;
+        }
+
+        /* responsive nav */
+        @media (max-width: 680px) {
+            .header-inner {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+            nav a {
+                margin: 0 1rem;
+            }
+            .hero-text h2 {
+                text-align: center;
+            }
+            .hero-text p {
+                margin-left: auto;
+                margin-right: auto;
+                text-align: center;
+            }
+            .btn {
+                display: block;
+                width: fit-content;
+                margin: 1rem auto 0;
+            }
+            .footer-links a {
+                margin: 0 1rem 0 0;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 0 1rem;
+            }
+            .hero-collage {
+                grid-template-columns: 1fr;
+            }
+            .hero-collage .wide {
+                grid-column: span 1;
+            }
+            .banner-strip img {
+                min-width: 100%;
+                border-right: none;
+                border-bottom: 2px solid var(--border-dim);
+            }
+            .banner-strip img:last-child {
+                border-bottom: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container header-inner">
+            <div class="logo-area">
+                <div class="logo-icon">
+                    <i class="fas fa-camera-retro"></i>
+                </div>
+                <div class="logo-text">
+                    <h1>pixel <span>haven</span></h1>
+                    <div class="by-line">by Bakhita</div>
+                </div>
+            </div>
+            <nav>
+                <a href="#">journal</a>
+                <a href="#">galleries</a>
+                <a href="#">gear</a>
+                <a href="#">darkroom</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <!-- HERO section -->
+        <section class="hero">
+            <div class="container hero-grid">
+                <div class="hero-text">
+                    <h2>where light meets <i>soul</i></h2>
+                    <p>Discover tools, tips & visual stories — a quiet corner for photography people, crafted by Bakhita.</p>
+                    <a href="#" class="btn"><i class="fas fa-camera" style="margin-right: 8px;"></i>explore the haven</a>
+                </div>
+                <div class="hero-collapse" style="flex:1 1 340px;">
+                    <!-- images with onerror fallback (handled by js but also inline fallback) -->
+                    <div class="hero-collapse" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.2rem;">
+                        <img src="https://images.pexels.com/photos/1707820/pexels-photo-1707820.jpeg?auto=compress&cs=tinysrgb&w=600" alt="vintage camera" class="hero-img" onerror="this.onerror=null; this.src='https://placehold.co/600x400/2a2a2a/d4a373?text=vintage+camera';">
+                        <img src="https://images.pexels.com/photos/2568418/pexels-photo-2568418.jpeg?auto=compress&cs=tinysrgb&w=600" alt="photographer in field" class="hero-img" onerror="this.onerror=null; this.src='https://placehold.co/600x400/2a2a2a/d4a373?text=photographer';">
+                        <img src="https://images.pexels.com/photos/2386318/pexels-photo-2386318.jpeg?auto=compress&cs=tinysrgb&w=600" alt="lens closeup" class="wide hero-img" onerror="this.onerror=null; this.src='https://placehold.co/600x300/2a2a2a/d4a373?text=lens+detail';">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div class="container">
+            <h2 class="section-title"><i class="fas fa-camera"></i> photography stuff we adore</h2>
+        </div>
+
+        <!-- card grid with fallback for images -->
+        <div class="container card-grid">
+            <div class="card">
+                <img class="card-img" src="https://images.pexels.com/photos/1016594/pexels-photo-1016594.jpeg?auto=compress&cs=tinysrgb&w=600" alt="film rolls" onerror="this.onerror=null; this.src='https://placehold.co/600x400/2a2a2a/d4a373?text=film+rolls';">
+                <div class="card-content">
+                    <h3><i class="fas fa-film"></i> analog diaries</h3>
+                    <p>Film stocks, developing recipes, and the grain aesthetic – everything analog.</p>
+                    <span class="tag">film</span><span class="tag" style="margin-left:8px;">35mm</span>
+                </div>
+            </div>
+            <div class="card">
+                <img class="card-img" src="https://images.pexels.com/photos/6075948/pexels-photo-6075948.jpeg?auto=compress&cs=tinysrgb&w=600" alt="camera lenses" onerror="this.onerror=null; this.src='https://placehold.co/600x400/2a2a2a/d4a373?text=lenses+gear';">
+                <div class="card-content">
+                    <h3><i class="fas fa-camera-retro"></i> glass & gear</h3>
+                    <p>Lens reviews, camera bag essentials, and weird accessories we love.</p>
+                    <span class="tag">reviews</span><span class="tag" style="margin-left:8px;">vintage</span>
+                </div>
+            </div>
+            <div class="card">
+                <img class="card-img" src="https://images.pexels.com/photos/2882572/pexels-photo-2882572.jpeg?auto=compress&cs=tinysrgb&w=600" alt="golden hour" onerror="this.onerror=null; this.src='https://placehold.co/600x400/2a2a2a/d4a373?text=golden+hour';">
+                <div class="card-content">
+                    <h3><i class="fas fa-sun"></i> natural light</h3>
+                    <p>Master available light, golden hour secrets, and soft shadows.</p>
+                    <span class="tag">lighting</span><span class="tag" style="margin-left:8px;">outdoor</span>
+                </div>
+            </div>
+            <div class="card">
+                <img class="card-img" src="https://images.pexels.com/photos/1078478/pexels-photo-1078478.jpeg?auto=compress&cs=tinysrgb&w=600" alt="editing" onerror="this.onerror=null; this.src='https://placehold.co/600x400/2a2a2a/d4a373?text=digital+darkroom';">
+                <div class="card-content">
+                    <h3><i class="fas fa-sliders-h"></i> digital darkroom</h3>
+                    <p>Lightroom presets, editing workflows, and colour grading magic.</p>
+                    <span class="tag">editing</span><span class="tag" style="margin-left:8px;">presets</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- banner strip -->
+        <div class="container">
+            <div class="banner-strip">
+                <img src="https://images.pexels.com/photos/257897/pexels-photo-257897.jpeg?auto=compress&cs=tinysrgb&w=600" alt="landscape" onerror="this.onerror=null; this.src='https://placehold.co/600x400/2a2a2a/d4a373?text=landscape';">
+                <img src="https://images.pexels.com/photos/1128678/pexels-photo-1128678.jpeg?auto=compress&cs=tinysrgb&w=600" alt="street night" onerror="this.onerror=null; this.src='https://placehold.co/600x400/2a2a2a/d4a373?text=street+night';">
+                <img src="https://images.pexels.com/photos/164660/pexels-photo-164660.jpeg?auto=compress&cs=tinysrgb&w=600" alt="macro bee" onerror="this.onerror=null; this.src='https://placehold.co/600x400/2a2a2a/d4a373?text=macro';">
+            </div>
+        </div>
+
+        <!-- second row of cards -->
+        <div class="container card-grid" style="margin-top: 1rem;">
+            <div class="card">
+                <img class="card-img" src="https://images.pexels.com/photos/374003/pexels-photo-374003.jpeg?auto=compress&cs=tinysrgb&w=600" alt="polaroid" onerror="this.onerror=null; this.src='https://placehold.co/600x400/2a2a2a/d4a373?text=polaroid';">
+                <div class="card-content">
+                    <h3><i class="fas fa-camera"></i> instant magic</h3>
+                    <p>Polaroid, Instax and emulsion tricks – celebrate instant photography.</p>
+                    <span class="tag">polaroid</span>
+                </div>
+            </div>
+            <div class="card">
+                <img class="card-img" src="https://images.pexels.com/photos/1462935/pexels-photo-1462935.jpeg?auto=compress&cs=tinysrgb&w=600" alt="bw portrait" onerror="this.onerror=null; this.src='https://placehold.co/600x400/2a2a2a/d4a373?text=b%26w+portrait';">
+                <div class="card-content">
+                    <h3><i class="fas fa-portrait"></i> b&w poetry</h3>
+                    <p>Classic monochrome, contrast, and emotional street portraits.</p>
+                    <span class="tag">b&w</span><span class="tag">street</span>
+                </div>
+            </div>
+            <div class="card">
+                <img class="card-img" src="https://images.pexels.com/photos/2293096/pexels-photo-2293096.jpeg?auto=compress&cs=tinysrgb&w=600" alt="camera collection" onerror="this.onerror=null; this.src='https://placehold.co/600x400/2a2a2a/d4a373?text=camera+collection';">
+                <div class="card-content">
+                    <h3><i class="fas fa-archive"></i> camera collection</h3>
+                    <p>Spotlight on classic SLRs, rangefinders and weird Soviet cameras.</p>
+                    <span class="tag">vintage</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- note about bakhita -->
+        <div class="container note-box">
+            <i class="fas fa-leaf" style="color: var(--brand); font-size: 2rem;"></i>
+            <p style="font-size: 1.3rem; max-width: 700px; margin: 0.5rem auto; font-style: italic;">“Pixel Haven is Bakhita’s corner – a place for storytellers who see with their hearts.”</p>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <i class="fas fa-camera-retro"></i>
+                    <small>pixel haven · by Bakhita</small>
+                </div>
+                <div class="footer-links">
+                    <a href="#"><i class="far fa-heart"></i> journal</a>
+                    <a href="#"><i class="far fa-images"></i> galleries</a>
+                    <a href="#"><i class="fas fa-cog"></i> darkroom</a>
+                </div>
+            </div>
+            <div class="copyright">
+                <i class="far fa-copyright"></i> 2025 Bakhita — all photographs are placeholders celebrating the art of photography.
+            </div>
+        </div>
+    </footer>
+
+    <div class="fixed-stamp">
+        <i class="fas fa-camera" style="margin-right: 4px;"></i> PH
+    </div>
+
+    <!-- JavaScript: extra fallback and responsiveness (image reload/error handling + dark mode toggle optional) -->
+    <script>
+        (function() {
+            // 1. ensure all images have fallback if they fail to load (redundant but safe)
+            const allImages = document.querySelectorAll('img');
+            allImages.forEach(img => {
+                // if image already errored and src wasn't changed, handle
+                img.addEventListener('error', function onImgError(e) {
+                    const element = e.target;
+                    // avoid infinite loop if fallback also fails
+                    if (!element.src.includes('placehold.co')) {
+                        // create a fallback based on alt or generic
+                        const altText = element.alt || 'photography';
+                        const width = element.width || 600;
+                        const height = element.height || 400;
+                        element.src = `https://placehold.co/${width}x${height}/2a2a2a/d4a373?text=${encodeURIComponent(altText)}`;
+                        element.alt = altText + ' (fallback)';
+                    }
+                });
+                // manually trigger if naturalWidth = 0 (already failed)
+                if (img.complete && img.naturalWidth === 0) {
+                    img.dispatchEvent(new Event('error'));
+                }
+            });
+
+            // 2. RESPONSIVENESS: add listener to adjust something if needed (just for demo, already fully responsive via CSS)
+            // we could log a message, but no need.
+
+            // 3. small interactive: double click on logo changes accent color? not necessary, but keep fun.
+            // just a tiny console greeting
+            console.log('Pixel Haven by Bakhita — dark mode & fallback active');
+
+            // Optional: if you want a manual theme switcher, but we respect system preference.
+            // we could add a button, but per request "background dark" we keep dark as base and fallback light only via media.
+            // The :root already dark, media light will switch if system light.
+        })();
+    </script>
+</body>
+</html>
